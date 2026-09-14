@@ -19,6 +19,8 @@ HACS custom repository `gerrowadat/open-tides`, then add the integration.
 
 - [Providers](docs/providers.md)
 - [Graphing](docs/graphing.md)
+- [API landscape](docs/api-landscape.md)
+- [The science bit](docs/science.md)
 - [Adding a provider](docs/adding-a-provider.md)
 - [Design](docs/design.md)
 

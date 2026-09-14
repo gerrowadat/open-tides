@@ -152,8 +152,9 @@ curve:             # only when enabled; next 48 h, 20-min step
   - [2026-09-14T15:00:00+00:00, 2.31]
 ```
 
-The `events` shape should match what TideWise's generic-sensor mode expects;
-verify against their current docs before release and adjust here, not there.
+The `events` shape matches TideWise `generic_entity` mode (checked
+2026-09-14: it reads `events`/`predictions` rows with `time`/`height`/`type`).
+Re-check before release; adjust here, not there.
 
 ## Graphing
 
