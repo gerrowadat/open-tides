@@ -34,10 +34,10 @@ integration.
 ## Development
 
 ```
-pip install -e ".[dev]"
-pytest
-ruff check . && ruff format --check .
-mypy pyopentides
+uv sync --extra dev
+uv run pytest
+uv run ruff check . && uv run ruff format --check .
+uv run mypy pyopentides
 ```
 
 ## Licence

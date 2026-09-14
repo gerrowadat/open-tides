@@ -11,13 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
-        with:
-          python-version: "3.12"
-      - run: uv venv && uv pip install -e ".[dev]"
-      - run: uv run ruff check .
-      - run: uv run ruff format --check .
-      - run: uv run mypy pyopentides
-      - run: uv run pytest -q
+      - run: uv sync --extra dev --locked
+      - run: uv run --no-sync ruff check .
+      - run: uv run --no-sync ruff format --check .
+      - run: uv run --no-sync mypy pyopentides
+      - run: uv run --no-sync pytest -q
 
   hassfest:
     runs-on: ubuntu-latest

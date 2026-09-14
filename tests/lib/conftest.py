@@ -4,15 +4,16 @@ from __future__ import annotations
 
 import json
 import pathlib
-from collections.abc import Iterator
 from datetime import UTC, datetime
+from typing import cast
 
 import aiohttp
 import pytest
-from aioresponses import aioresponses
 
 from pyopentides.provider import TideProvider
 from pyopentides.providers import PROVIDERS
+
+from .fakesession import FakeSession
 
 FIXTURES = pathlib.Path(__file__).parent / "fixtures"
 
@@ -23,36 +24,24 @@ CURVE_END = datetime(2026, 9, 16, tzinfo=UTC)
 NOW = datetime(2026, 9, 14, 12, 0, tzinfo=UTC)
 
 
-def load_fixture(slug: str, mocked: aioresponses) -> None:
+def load_fixture(slug: str, session: FakeSession) -> None:
     d = FIXTURES / slug
     for rec in json.loads((d / "requests.json").read_text()):
-        mocked.get(
-            rec["url"],
-            status=rec["status"],
-            body=(d / rec["body"]).read_text(),
-            repeat=True,
-        )
+        session.add(rec["url"], rec["status"], (d / rec["body"]).read_text())
 
 
 @pytest.fixture
-def mocked() -> Iterator[aioresponses]:
-    with aioresponses() as m:
-        yield m
+def fake() -> FakeSession:
+    return FakeSession()
 
 
 @pytest.fixture
-async def session() -> Iterator[aiohttp.ClientSession]:
-    # ThreadedResolver: the aiodns resolver leaves a pycares thread behind,
-    # which the HA test plugin flags as a leak.
-    connector = aiohttp.TCPConnector(resolver=aiohttp.ThreadedResolver())
-    async with aiohttp.ClientSession(connector=connector) as s:
-        yield s
+def session(fake: FakeSession) -> aiohttp.ClientSession:
+    return cast(aiohttp.ClientSession, fake)
 
 
-def make_provider(
-    slug: str, session: aiohttp.ClientSession, mocked: aioresponses
-) -> TideProvider:
-    load_fixture(slug, mocked)
-    provider = PROVIDERS[slug](session, version="test")
+def make_provider(slug: str, fake: FakeSession) -> TideProvider:
+    load_fixture(slug, fake)
+    provider = PROVIDERS[slug](cast(aiohttp.ClientSession, fake), version="test")
     provider._now = staticmethod(lambda: NOW)  # type: ignore[method-assign]
     return provider

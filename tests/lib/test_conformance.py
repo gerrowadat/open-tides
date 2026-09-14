@@ -9,15 +9,14 @@ from __future__ import annotations
 from datetime import UTC, timedelta
 from itertools import pairwise
 
-import aiohttp
 import pytest
-from aioresponses import aioresponses
 
 from pyopentides.exceptions import StationNotFound
 from pyopentides.models import Location
 from pyopentides.providers import PROVIDERS
 
 from .conftest import CURVE_END, END, START, make_provider
+from .fakesession import FakeSession
 
 # One known-good location per provider, matching the recorded fixtures.
 LOCATIONS: dict[str, Location] = {
@@ -56,10 +55,8 @@ def test_declarations(slug: str) -> None:
 
 
 @slugs
-async def test_stations_or_coordinates(
-    slug: str, session: aiohttp.ClientSession, mocked: aioresponses
-) -> None:
-    p = make_provider(slug, session, mocked)
+async def test_stations_or_coordinates(slug: str, fake: FakeSession) -> None:
+    p = make_provider(slug, fake)
     stations = await p.list_stations()
     if p.coordinate_based:
         assert stations is None
@@ -71,10 +68,8 @@ async def test_stations_or_coordinates(
 
 
 @slugs
-async def test_events(
-    slug: str, session: aiohttp.ClientSession, mocked: aioresponses
-) -> None:
-    p = make_provider(slug, session, mocked)
+async def test_events(slug: str, fake: FakeSession) -> None:
+    p = make_provider(slug, fake)
     events = await p.get_events(LOCATIONS[slug], START, END)
     assert len(events) >= 20, "a week should hold ~26-28 events"
     for ev in events:
@@ -91,10 +86,8 @@ async def test_events(
 
 
 @slugs
-async def test_curve(
-    slug: str, session: aiohttp.ClientSession, mocked: aioresponses
-) -> None:
-    p = make_provider(slug, session, mocked)
+async def test_curve(slug: str, fake: FakeSession) -> None:
+    p = make_provider(slug, fake)
     caps = await p.capabilities(LOCATIONS[slug])
     if not caps.curve:
         pytest.skip("no curve at this location")
@@ -108,10 +101,8 @@ async def test_curve(
 
 
 @slugs
-async def test_observed(
-    slug: str, session: aiohttp.ClientSession, mocked: aioresponses
-) -> None:
-    p = make_provider(slug, session, mocked)
+async def test_observed(slug: str, fake: FakeSession) -> None:
+    p = make_provider(slug, fake)
     caps = await p.capabilities(LOCATIONS[slug])
     if not caps.observed:
         pytest.skip("no observations at this location")
@@ -123,9 +114,7 @@ async def test_observed(
 
 
 @slugs
-async def test_unknown_location(
-    slug: str, session: aiohttp.ClientSession, mocked: aioresponses
-) -> None:
-    p = make_provider(slug, session, mocked)
+async def test_unknown_location(slug: str, fake: FakeSession) -> None:
+    p = make_provider(slug, fake)
     with pytest.raises(StationNotFound):
         await p.get_events(BAD[slug], START, END)
