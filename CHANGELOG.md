@@ -9,5 +9,5 @@ Two artefacts, two version lines. See docs/releasing.md.
 
 ## pyopentides
 
-### Unreleased
+### 0.1.0 — 2026-09-14
 - Initial: contract, Marine Institute, NOAA CO-OPS, Kartverket providers.
