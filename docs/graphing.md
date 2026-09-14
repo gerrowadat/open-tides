@@ -1,28 +1,62 @@
 # Graphing
 
-<!-- PLACEHOLDER: no card ships in v1. This page documents how to plot the
-     `curve` and `events` attributes with existing community cards. -->
+No card ships. `sensor.<name>_tide` carries the data; these cards draw it.
 
-`sensor.<name>_tide` exposes `events` (next 48 h of highs/lows) and, when
-the curve option is enabled, `curve` (next 48 h at 20-minute steps). Both
-are documented in [design.md](design.md#entities) and are a public contract.
+Attributes (public contract, see [design.md](design.md#entities)):
 
-## ApexCharts card
+```yaml
+events:                          # next 48 h
+  - time: 2026-09-14T16:12:00+00:00
+    height: 4.0
+    type: high
+curve:                           # next 48 h, 20-min step; only with the curve option on
+  - ["2026-09-14T12:00:00+00:00", 2.31]
+```
 
-<!-- TODO: working config using `data_generator` over the `curve` attribute,
-     with high/low events as annotations. Verify against a live install. -->
+## TideWise
+
+[TideWise](https://github.com/TheWillMiller/tide-wise) reads `events`
+directly in `generic_entity` mode.
+
+```yaml
+type: custom:tide-wise-card
+provider: generic_entity
+tide_entity: sensor.dublin_port_tide
+tide_time_mode: as_is
+units: metric
+```
+
+## ApexCharts
+
+[apexcharts-card](https://github.com/RomRider/apexcharts-card) with
+`data_generator`. Needs the curve option enabled.
 
 ```yaml
 type: custom:apexcharts-card
-# TODO
+graph_span: 48h
+span:
+  start: minute
+header:
+  show: true
+  title: Dublin Port tide
+yaxis:
+  - min: 0
+    decimals: 1
+series:
+  - entity: sensor.dublin_port_tide
+    name: Predicted
+    type: area
+    stroke_width: 2
+    data_generator: |
+      return entity.attributes.curve.map(p => [new Date(p[0]).getTime(), p[1]]);
+  - entity: sensor.dublin_port_tide
+    name: High / low
+    type: scatter
+    data_generator: |
+      return entity.attributes.events.map(e => [new Date(e.time).getTime(), e.height]);
+now:
+  show: true
 ```
 
-## TideWise card
-
-<!-- TODO: config for TideWise generic-sensor mode pointing at
-     `sensor.<name>_tide`. Verify the `events` shape against TideWise's
-     current docs before release — adjust *our* shape, not theirs. -->
-
-```yaml
-# TODO
-```
+Without the curve, plot `events` alone as `type: line` with
+`curve: smooth` — close enough for a glance, wrong in detail.
