@@ -20,6 +20,7 @@ jobs:
           [ "$tag" = "$ver" ] || { echo "tag $tag != manifest $ver"; exit 1; }
       - uses: home-assistant/actions/hassfest@master
       - uses: hacs/action@main
+        continue-on-error: true  # see ci.yml; remove once repo is public
         with:
           category: integration
       - name: Zip

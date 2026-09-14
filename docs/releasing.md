@@ -33,3 +33,14 @@ Create the `pypi` environment in GitHub repo settings. No token anywhere.
 
 Breaking: entity IDs, the `events` attribute shape, config entry schema
 without a migration. Anything else is minor or patch.
+
+## Known gaps
+
+- HACS validation can't read a private repo; the CI job is
+  `continue-on-error` until the repo is public. Then remove it.
+- `brand/icon.png` is a generated placeholder. Replace, or submit to
+  [home-assistant/brands](https://github.com/home-assistant/brands) and
+  delete the local copy.
+- PyPI trusted publisher and the `pypi` GitHub environment are not yet
+  configured. First library release will fail at the publish step until
+  they are.
