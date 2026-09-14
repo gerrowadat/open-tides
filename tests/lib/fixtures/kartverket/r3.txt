@@ -1,0 +1,5 @@
+<tide>
+<locationdata>
+<nodata info="Sorry. We do not have sea level data for this area."/>
+</locationdata>
+</tide>

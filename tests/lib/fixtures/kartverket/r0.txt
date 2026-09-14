@@ -1,0 +1,35 @@
+<tide>
+<locationdata>
+<location name="Stavanger" code="SVG" latitude="58.974339" longitude="5.730121" delay="0" factor="1.00" obsname="Stavanger" obscode="SVG" descr="Tides from Stavanger"/>
+<reflevelcode>CD</reflevelcode>
+<data type="prediction" unit="cm" qualityFlag="1" qualityClass="Quality High" qualityDescription="High quality data: It has been verified against measurements that the data represents physical conditions.">
+<waterlevel value="40.9" time="2026-09-14T05:01:00+00:00" flag="low"/>
+<waterlevel value="100.8" time="2026-09-14T11:16:00+00:00" flag="high"/>
+<waterlevel value="45.0" time="2026-09-14T17:11:00+00:00" flag="low"/>
+<waterlevel value="102.9" time="2026-09-14T23:32:00+00:00" flag="high"/>
+<waterlevel value="46.0" time="2026-09-15T05:34:00+00:00" flag="low"/>
+<waterlevel value="99.1" time="2026-09-15T11:52:00+00:00" flag="high"/>
+<waterlevel value="49.5" time="2026-09-15T17:42:00+00:00" flag="low"/>
+<waterlevel value="99.5" time="2026-09-16T00:08:00+00:00" flag="high"/>
+<waterlevel value="52.0" time="2026-09-16T06:03:00+00:00" flag="low"/>
+<waterlevel value="96.7" time="2026-09-16T12:28:00+00:00" flag="high"/>
+<waterlevel value="54.9" time="2026-09-16T18:10:00+00:00" flag="low"/>
+<waterlevel value="95.6" time="2026-09-17T00:42:00+00:00" flag="high"/>
+<waterlevel value="58.0" time="2026-09-17T06:28:00+00:00" flag="low"/>
+<waterlevel value="93.9" time="2026-09-17T13:02:00+00:00" flag="high"/>
+<waterlevel value="60.1" time="2026-09-17T18:36:00+00:00" flag="low"/>
+<waterlevel value="91.6" time="2026-09-18T01:14:00+00:00" flag="high"/>
+<waterlevel value="63.3" time="2026-09-18T06:52:00+00:00" flag="low"/>
+<waterlevel value="90.9" time="2026-09-18T13:36:00+00:00" flag="high"/>
+<waterlevel value="65.0" time="2026-09-18T19:05:00+00:00" flag="low"/>
+<waterlevel value="87.6" time="2026-09-19T01:45:00+00:00" flag="high"/>
+<waterlevel value="68.0" time="2026-09-19T07:19:00+00:00" flag="low"/>
+<waterlevel value="88.0" time="2026-09-19T14:11:00+00:00" flag="high"/>
+<waterlevel value="69.2" time="2026-09-19T19:42:00+00:00" flag="low"/>
+<waterlevel value="83.6" time="2026-09-20T02:21:00+00:00" flag="high"/>
+<waterlevel value="72.1" time="2026-09-20T07:57:00+00:00" flag="low"/>
+<waterlevel value="85.1" time="2026-09-20T14:56:00+00:00" flag="high"/>
+<waterlevel value="71.8" time="2026-09-20T23:56:00+00:00" flag="low"/>
+</data>
+</locationdata>
+</tide>

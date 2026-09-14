@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from datetime import datetime, timedelta
-from typing import ClassVar
+from datetime import UTC, datetime, timedelta
+from typing import TYPE_CHECKING, ClassVar
 
+from pyopentides.http import fetch_text, user_agent
 from pyopentides.models import (
     Capabilities,
     Location,
@@ -14,6 +15,11 @@ from pyopentides.models import (
     Station,
     TideEvent,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+
+    import aiohttp
 
 
 class TideProvider(ABC):
@@ -39,6 +45,30 @@ class TideProvider(ABC):
     supports_curve: ClassVar[bool] = False
     supports_observed: ClassVar[bool] = False
     observed_min_refresh: ClassVar[timedelta | None] = None
+
+    def __init__(self, session: aiohttp.ClientSession, *, version: str = "0") -> None:
+        self._session = session
+        self._user_agent = user_agent(version)
+
+    async def _get(
+        self,
+        url: str,
+        params: Mapping[str, str] | None = None,
+        *,
+        not_found_is_station: bool = False,
+    ) -> str:
+        return await fetch_text(
+            self._session,
+            url,
+            params=params,
+            user_agent=self._user_agent,
+            not_found_is_station=not_found_is_station,
+        )
+
+    @staticmethod
+    def _now() -> datetime:
+        """Overridable clock, so fixtures can replay observed-level requests."""
+        return datetime.now(UTC)
 
     async def capabilities(self, loc: Location) -> Capabilities:
         """Per-location capabilities. Default: the class-level flags.

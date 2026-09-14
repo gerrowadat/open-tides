@@ -8,7 +8,18 @@ class ProviderError(Exception):
 
 
 class ProviderUnavailable(ProviderError):
-    """Upstream is down, timing out, or returned something unparseable."""
+    """Upstream is down, timing out, or returned something unparseable.
+
+    ``status`` and ``body`` are set for HTTP errors so a provider can
+    re-classify (e.g. NOAA answers 400 with a JSON error for a bad station).
+    """
+
+    def __init__(
+        self, message: str, *, status: int | None = None, body: str = ""
+    ) -> None:
+        super().__init__(message)
+        self.status = status
+        self.body = body
 
 
 class ProviderRateLimited(ProviderError):

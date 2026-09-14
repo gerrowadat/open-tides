@@ -64,11 +64,14 @@ See `docs/releasing.md`. Library and integration are tagged separately.
 ## Commands
 
 ```
-pip install -e ".[dev]"
-pytest
-ruff check . && ruff format --check .
-mypy pyopentides
+uv sync --extra dev          # Python 3.14 (HA needs it); uv installs it
+uv run pytest
+uv run ruff check . && uv run ruff format --check .
+uv run mypy pyopentides
 ```
+
+`uv.lock` is committed; CI uses `--locked`. Tests use `tests/lib/fakesession.py`
+to replay recorded fixtures — no aioresponses (it lags aiohttp).
 
 ## When adding a provider
 

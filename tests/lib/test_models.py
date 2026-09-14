@@ -3,10 +3,14 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+from typing import cast
 
+import aiohttp
 import pytest
 
 from pyopentides import Capabilities, Location, TideEvent, TideProvider
+
+SESSION = cast(aiohttp.ClientSession, object())
 
 
 def test_location_station() -> None:
@@ -63,11 +67,11 @@ def test_abstract_without_get_events() -> None:
         slug = "half"
 
     with pytest.raises(TypeError):
-        Half()  # type: ignore[abstract]
+        Half(SESSION)  # type: ignore[abstract]
 
 
 async def test_capabilities_default_to_class_flags() -> None:
-    caps = await _Minimal().capabilities(Location(station_id="x"))
+    caps = await _Minimal(SESSION).capabilities(Location(station_id="x"))
     assert caps == Capabilities(curve=True, observed=False)
 
 
@@ -76,13 +80,13 @@ async def test_capabilities_overridable_per_location() -> None:
         async def capabilities(self, loc: Location) -> Capabilities:
             return Capabilities(curve=loc.station_id != "sub", observed=False)
 
-    p = PerStation()
+    p = PerStation(SESSION)
     assert (await p.capabilities(Location(station_id="ref"))).curve
     assert not (await p.capabilities(Location(station_id="sub"))).curve
 
 
 async def test_optional_methods_raise_not_implemented() -> None:
-    p = _Minimal()
+    p = _Minimal(SESSION)
     loc = Location(station_id="x")
     assert await p.list_stations() is None
     with pytest.raises(NotImplementedError):

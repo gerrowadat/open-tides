@@ -1,0 +1,37 @@
+[
+ {
+  "url": "https://erddap.marine.ie/erddap/tabledap/imiTidePrediction.csv?stationID,longitude,latitude&distinct()",
+  "status": 200,
+  "body": "r0.txt"
+ },
+ {
+  "url": "https://erddap.marine.ie/erddap/tabledap/IrishNationalTideGaugeNetwork.csv?station_id,longitude,latitude&distinct()",
+  "status": 200,
+  "body": "r1.txt"
+ },
+ {
+  "url": "https://erddap.marine.ie/erddap/tabledap/imiTidePrediction.csv?time,Water_Level,Water_Level_ODM&stationID=\"Dublin_Port\"&orderByMax(\"time\")",
+  "status": 200,
+  "body": "r2.txt"
+ },
+ {
+  "url": "https://erddap.marine.ie/erddap/tabledap/IMI_TidePrediction_HighLow.csv?time,tide_time_category,Water_Level_ODMalin&stationID=\"Dublin_Port\"&time>=2026-09-14T00:00:00Z&time<=2026-09-21T00:00:00Z",
+  "status": 200,
+  "body": "r3.txt"
+ },
+ {
+  "url": "https://erddap.marine.ie/erddap/tabledap/imiTidePrediction.csv?time,Water_Level&stationID=\"Dublin_Port\"&time>=2026-09-14T00:00:00Z&time<=2026-09-16T00:00:00Z",
+  "status": 200,
+  "body": "r4.txt"
+ },
+ {
+  "url": "https://erddap.marine.ie/erddap/tabledap/IrishNationalTideGaugeNetwork.csv?time,Water_Level_LAT,QC_Flag&station_id=\"Dublin Port\"&time>=now-3days&orderByMax(\"time\")",
+  "status": 200,
+  "body": "r5.txt"
+ },
+ {
+  "url": "https://erddap.marine.ie/erddap/tabledap/imiTidePrediction.csv?time,Water_Level,Water_Level_ODM&stationID=\"Nowhere\"&orderByMax(\"time\")",
+  "status": 404,
+  "body": "r6.txt"
+ }
+]

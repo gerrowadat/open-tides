@@ -17,6 +17,7 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Typing :: Typed",
 ]
 
@@ -28,11 +29,15 @@ Issues = "https://github.com/gerrowadat/open-tides/issues"
 dev = [
   "pytest",
   "pytest-asyncio",
-  "aioresponses",
-  "pytest-homeassistant-custom-component",
+  # Pins homeassistant exactly; bump deliberately.
+  "pytest-homeassistant-custom-component==0.13.365",
   "ruff",
   "mypy",
 ]
+
+[tool.uv]
+# Home Assistant needs 3.14+; the library itself stays >=3.12.
+environments = ["python_full_version >= '3.14.2'"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["pyopentides"]

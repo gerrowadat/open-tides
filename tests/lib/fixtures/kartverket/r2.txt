@@ -1,0 +1,25 @@
+<tide>
+<locationdata>
+<location name="Stavanger" code="SVG" latitude="58.974339" longitude="5.730121" delay="0" factor="1.00" obsname="Stavanger" obscode="SVG" descr="Tides and observed water level from Stavanger"/>
+<reflevelcode>CD</reflevelcode>
+<data type="observation" unit="cm" qualityFlag="1" qualityClass="Quality High" qualityDescription="High quality data: It has been verified against measurements that the data represents physical conditions.">
+<waterlevel value="67.0" time="2026-09-14T09:00:00+00:00" flag="obs"/>
+<waterlevel value="68.5" time="2026-09-14T09:10:00+00:00" flag="obs"/>
+<waterlevel value="70.5" time="2026-09-14T09:20:00+00:00" flag="obs"/>
+<waterlevel value="72.4" time="2026-09-14T09:30:00+00:00" flag="obs"/>
+<waterlevel value="75.2" time="2026-09-14T09:40:00+00:00" flag="obs"/>
+<waterlevel value="77.7" time="2026-09-14T09:50:00+00:00" flag="obs"/>
+<waterlevel value="80.5" time="2026-09-14T10:00:00+00:00" flag="obs"/>
+<waterlevel value="84.0" time="2026-09-14T10:10:00+00:00" flag="obs"/>
+<waterlevel value="87.1" time="2026-09-14T10:20:00+00:00" flag="obs"/>
+<waterlevel value="90.3" time="2026-09-14T10:30:00+00:00" flag="obs"/>
+<waterlevel value="93.3" time="2026-09-14T10:40:00+00:00" flag="obs"/>
+<waterlevel value="95.5" time="2026-09-14T10:50:00+00:00" flag="obs"/>
+<waterlevel value="97.0" time="2026-09-14T11:00:00+00:00" flag="obs"/>
+<waterlevel value="97.3" time="2026-09-14T11:10:00+00:00" flag="obs"/>
+<waterlevel value="96.7" time="2026-09-14T11:20:00+00:00" flag="obs"/>
+<waterlevel value="95.8" time="2026-09-14T11:30:00+00:00" flag="obs"/>
+<waterlevel value="94.5" time="2026-09-14T11:40:00+00:00" flag="obs"/>
+</data>
+</locationdata>
+</tide>
