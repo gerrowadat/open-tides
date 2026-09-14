@@ -25,9 +25,6 @@ jobs:
 
   hacs:
     runs-on: ubuntu-latest
-    # HACS action fetches files via the GitHub API; that fails while the repo
-    # is private. Remove continue-on-error once public.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: hacs/action@main
