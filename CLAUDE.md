@@ -57,6 +57,10 @@ hacs.json, manifest.json        HACS + hassfest metadata
 - Never hard-code a dataset ID or base URL outside the provider module.
 - User-Agent on every request: `open_tides/<version> (+<repo url>)`.
 
+## Releasing
+
+See `docs/releasing.md`. Library and integration are tagged separately.
+
 ## Commands
 
 ```
