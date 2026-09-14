@@ -90,6 +90,14 @@ class TideData:
             return None
 
 
+def make_store(hass: HomeAssistant, entry_id: str) -> Store[dict[str, Any]]:
+    return Store(hass, STORAGE_VERSION, f"{STORAGE_KEY}.{entry_id}")
+
+
+async def remove_store(hass: HomeAssistant, entry_id: str) -> None:
+    await make_store(hass, entry_id).async_remove()
+
+
 def refresh_interval(
     provider: type[TideProvider], options: dict[str, Any]
 ) -> timedelta:
@@ -123,9 +131,7 @@ class TideCoordinator(DataUpdateCoordinator[TideData]):
             name=f"{DOMAIN} {entry.title}",
             update_interval=self.interval + jitter,
         )
-        self._store: Store[dict[str, Any]] = Store(
-            hass, STORAGE_VERSION, f"{STORAGE_KEY}.{entry.entry_id}"
-        )
+        self._store = make_store(hass, entry.entry_id)
         self._last_fetch: datetime | None = None
 
     @property
@@ -189,9 +195,6 @@ class TideCoordinator(DataUpdateCoordinator[TideData]):
         self._last_fetch = now
         await self._store.async_save(data.to_store())
         return data
-
-    async def async_remove_store(self) -> None:
-        await self._store.async_remove()
 
 
 class ObservedCoordinator(DataUpdateCoordinator[Observation | None]):
