@@ -13,7 +13,13 @@ floored at each provider's `min_refresh`.
 
 ## Install
 
-HACS custom repository `gerrowadat/open-tides`, then add the integration.
+Not yet. There is no release; these buttons don't work until there is.
+
+[![Add to HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=gerrowadat&repository=open-tides&category=integration)
+[![Add integration](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=open_tides)
+
+Once released: HACS custom repository `gerrowadat/open-tides`, then add the
+integration.
 
 ## Docs
 
@@ -23,6 +29,7 @@ HACS custom repository `gerrowadat/open-tides`, then add the integration.
 - [The science bit](docs/science.md)
 - [Adding a provider](docs/adding-a-provider.md)
 - [Design](docs/design.md)
+- [Releasing](docs/releasing.md)
 
 ## Development
 

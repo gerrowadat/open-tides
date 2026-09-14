@@ -1,0 +1,30 @@
+# Release the HA integration on tag `vX.Y.Z`.
+# Validates, zips custom_components/open_tides, attaches it to a GitHub release.
+name: Release integration
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check tag matches manifest version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          ver="$(python3 -c 'import json;print(json.load(open("custom_components/open_tides/manifest.json"))["version"])')"
+          [ "$tag" = "$ver" ] || { echo "tag $tag != manifest $ver"; exit 1; }
+      - uses: home-assistant/actions/hassfest@master
+      - uses: hacs/action@main
+        with:
+          category: integration
+      - name: Zip
+        run: cd custom_components/open_tides && zip -r ../../open_tides.zip .
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: open_tides.zip
+          generate_release_notes: true
