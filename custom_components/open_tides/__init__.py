@@ -25,7 +25,7 @@ from .const import (
     DOMAIN,
     SERVICE_REFRESH,
 )
-from .coordinator import ObservedCoordinator, TideCoordinator
+from .coordinator import ObservedCoordinator, TideCoordinator, remove_store
 
 if TYPE_CHECKING:
     from pyopentides import TideProvider
@@ -126,8 +126,9 @@ async def async_unload_entry(hass: HomeAssistant, entry: OpenTidesConfigEntry) -
 
 
 async def async_remove_entry(hass: HomeAssistant, entry: OpenTidesConfigEntry) -> None:
-    if hasattr(entry, "runtime_data"):
-        await entry.runtime_data.coordinator.async_remove_store()
+    # runtime_data is gone by now (HA clears it on unload); address the store
+    # by entry id.
+    await remove_store(hass, entry.entry_id)
 
 
 async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
