@@ -23,11 +23,13 @@ LOCATIONS: dict[str, Location] = {
     "marine_ie": Location(station_id="Dublin_Port"),
     "noaa_coops": Location(station_id="9414290"),
     "kartverket": Location(lat=58.974339, lon=5.730121),
+    "dmi": Location(station_id="25149"),
 }
 BAD: dict[str, Location] = {
     "marine_ie": Location(station_id="Nowhere"),
     "noaa_coops": Location(station_id="0000000"),
     "kartverket": Location(lat=53.3, lon=-6.2),
+    "dmi": Location(station_id="0"),
 }
 
 slugs = pytest.mark.parametrize("slug", sorted(PROVIDERS), ids=sorted(PROVIDERS))

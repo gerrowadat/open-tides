@@ -4,6 +4,9 @@ Two artefacts, two version lines. See docs/releasing.md.
 
 ## Integration
 
+### 0.2.0 — 2026-09-14
+- DMI provider (Denmark, Greenland, Faroe Islands). Requires pyopentides 0.2.
+
 ### 0.1.2 — 2026-09-14
 - Removing an entry deletes its prediction store (was orphaned).
 
@@ -15,6 +18,9 @@ Two artefacts, two version lines. See docs/releasing.md.
 - Initial: config flow, Store-backed coordinator, 8 sensors, refresh service.
 
 ## pyopentides
+
+### 0.2.0 — 2026-09-14
+- DMI provider: `dmi`, DVR90, cm→m, gauge matched by id then distance.
 
 ### 0.1.0 — 2026-09-14
 - Initial: contract, Marine Institute, NOAA CO-OPS, Kartverket providers.

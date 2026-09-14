@@ -4,7 +4,7 @@ Tide predictions from official national hydrographic sources. One contract,
 many providers. Pure Python, `aiohttp`, no Home Assistant dependency.
 
 Providers: Marine Institute (Ireland), NOAA CO-OPS (United States),
-Kartverket (Norway). Details, datums and licences:
+Kartverket (Norway), DMI (Denmark, Greenland, Faroe Islands). Details, datums and licences:
 [providers.md](https://github.com/gerrowadat/open-tides/blob/main/docs/providers.md).
 
 ## Install

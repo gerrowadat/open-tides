@@ -11,6 +11,7 @@ Contract: [design.md](design.md). Landscape: [api-landscape.md](api-landscape.md
 | `marine_ie`  | Marine Institute ERDDAP     | IE     | list     | 5 min | yes      | LAT (+ODM) | CC BY 4.0 | 7 d         | done    |
 | `noaa_coops` | NOAA CO-OPS Data API        | US     | list     | 6 min | yes      | MLLW       | public domain | 1 d     | planned |
 | `kartverket` | Kartverket *Se havnivå* API | NO     | coords   | 10 min| yes      | CD         | CC BY 4.0 | 1 d         | done    |
+| `dmi`        | DMI Open Data oceanObs      | DK, GL, FO | list | 10 min| yes      | DVR90      | CC BY 4.0 | 7 d         | done    |
 
 Datum is declared, never converted. Heights from different providers are not
 comparable.
@@ -158,6 +159,49 @@ Dataset IDs have rotated before. Keep them as class attributes.
 
 ---
 
+## dmi — Danish Meteorological Institute (Denmark, Greenland, Faroe Islands)
+
+**Base:** `https://opendataapi.dmi.dk/v2/oceanObs/collections/`
+**Licence:** CC BY 4.0. <https://creativecommons.org/licenses/by/4.0/>
+**Attribution:** "Tide predictions © Danish Meteorological Institute (DMI), CC BY 4.0".
+**Docs:** <https://www.dmi.dk/friedata/dokumentation/apis/oceanographic-observation-and-tidewater-api>
+**Terms:** <https://www.dmi.dk/friedata/dokumentation/terms-of-use>. No API key.
+
+### Endpoints (OGC API Features, GeoJSON)
+
+| Need | Request |
+|------|---------|
+| Stations | `tidewaterstation/items?limit=1000` (220) |
+| Events | `tidewater/items?stationId=…&predictionType=minimum_maximum&datetime=<start>/<end>` |
+| Curve | `tidewater/items?stationId=…&predictionType=10minutes&datetime=…` |
+| Gauges | `station/items` — keep `status=Active`, `validTo=null`, `sealev_dvr` in `parameterId` |
+| Observed | `observation/items?stationId=…&parameterId=sealev_dvr&period=latest-hour` |
+
+### Response shape
+
+Feature `properties`: `{"predictionType": "maximum", "predictionTime": "2026-09-14T03:30:00Z", "value": 70.3, "stationId": "25149"}`.
+Observations: `{"parameterId": "sealev_dvr", "observed": "…Z", "value": 53.0, "qcStatus": "auto"}`.
+
+### Notes
+
+- **Unit is cm, datum DVR90** (Danish Vertical Reference 1990 — a land
+  datum). Lows are negative. Each `tidewaterstation` also carries
+  `lowAstronomicalTide` and `meanLowWaterSpring` offsets in cm; we don't
+  apply them (no datum conversion) but they're there if a LAT view is ever
+  wanted.
+- Prediction station ids are "similar but not identical" to gauge ids. The
+  provider uses the same id when a `sealev_dvr` gauge exists, else the
+  nearest active gauge within 1 km, else no observed.
+- `10minutes` output comes back **descending**; normalisation sorts.
+- Predictions are computed yearly, two years ahead → `min_refresh` 7 d.
+- `limit` defaults to 1000; provider sends 10000 (max 300000). No paging.
+- No published rate limit; DMI: filter, cache, match the update cycle, and
+  they may throttle an IP that doesn't.
+- Tide range is small in the Baltic (Copenhagen ±0.2 m); Esbjerg (North Sea)
+  ±1 m; Greenland several metres.
+
+---
+
 ## Candidates (not planned for v1)
 
 Ranked by how cleanly they fit the contract. See
@@ -165,7 +209,6 @@ Ranked by how cleanly they fit the contract. See
 
 | Slug | Source | Fit | Blocker |
 |------|--------|-----|---------|
-| `dmi` | DMI oceanObs (DK, GL, FO) | good | none; OGC API Features, CC BY 4.0, no key |
 | `bsh` | BSH WaterLevelForecast (DE) | good | endpoint marked "may change"; forecast not pure astronomical tide |
 | `chs` | CHS IWLS (CA) | ok | licence is non-commercial-only, no navigation; 3 req/s, 30 req/min |
 | `rws` | Rijkswaterstaat WaterWebservices (NL) | ok | new API Dec 2025, SOAP-ish JSON; NAP datum |
