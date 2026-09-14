@@ -39,6 +39,13 @@ hacs.json, manifest.json        HACS + hassfest metadata
    them is a breaking change and needs a major version bump.
 6. **No sync I/O in HA code.** aiohttp only, via HA's shared client session.
 
+## Ground rules
+
+- Everything gets tested. No PR without tests for what it changes.
+- Never check in secrets. No tokens, keys, or credentials in any file.
+- All changes via branch + PR, squash-merged. Never commit to `main`.
+- Terse. Docs describe, they don't sell. Session output: results, not narration.
+
 ## Conventions
 
 - Python 3.12+, `from __future__ import annotations`, full type hints.
