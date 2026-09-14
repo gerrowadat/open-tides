@@ -1,0 +1,95 @@
+{
+ "count": 4,
+ "units": null,
+ "stations": [
+  {
+   "state": "HI",
+   "tidepredoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/1610367/tidepredoffsets.json"
+   },
+   "type": "S",
+   "timemeridian": -150,
+   "reference_id": "1612340",
+   "timezonecorr": -10,
+   "id": "1610367",
+   "name": "Nonopapa, Niihau Island",
+   "lat": 21.87,
+   "lng": -160.235,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": null,
+   "expand": null,
+   "tideType": ""
+  },
+  {
+   "state": "NY",
+   "tidepredoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/8518750/tidepredoffsets.json"
+   },
+   "type": "R",
+   "timemeridian": 0,
+   "reference_id": "",
+   "timezonecorr": -5,
+   "id": "8518750",
+   "name": "NEW YORK (The Battery)",
+   "lat": 40.70055389404297,
+   "lng": -74.01416778564453,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": null,
+   "expand": null,
+   "tideType": ""
+  },
+  {
+   "state": "CA",
+   "tidepredoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/9414290/tidepredoffsets.json"
+   },
+   "type": "R",
+   "timemeridian": 0,
+   "reference_id": "",
+   "timezonecorr": -8,
+   "id": "9414290",
+   "name": "SAN FRANCISCO (Golden Gate)",
+   "lat": 37.80630555555555,
+   "lng": -122.4658888888889,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": null,
+   "expand": null,
+   "tideType": ""
+  },
+  {
+   "state": "WA",
+   "tidepredoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/9447130/tidepredoffsets.json"
+   },
+   "type": "R",
+   "timemeridian": 0,
+   "reference_id": "",
+   "timezonecorr": -8,
+   "id": "9447130",
+   "name": "SEATTLE (Madison St.), Elliott Bay",
+   "lat": 47.60263888888889,
+   "lng": -122.3393055555556,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": null,
+   "expand": null,
+   "tideType": ""
+  }
+ ],
+ "self": null
+}

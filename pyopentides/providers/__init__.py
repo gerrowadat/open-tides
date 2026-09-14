@@ -1,13 +1,12 @@
-"""Provider registry.
-
-One module per provider: ``pyopentides/providers/<slug>.py``. Register the
-class here so the conformance tests and the HA config flow can find it.
-"""
+"""Provider registry. One module per provider; register the class here."""
 
 from __future__ import annotations
 
 from pyopentides.provider import TideProvider
+from pyopentides.providers.kartverket import KartverketProvider
+from pyopentides.providers.marine_ie import MarineInstituteProvider
+from pyopentides.providers.noaa_coops import NoaaCoopsProvider
 
-# TODO: populate as providers land, e.g.
-# from pyopentides.providers.marine_ie import MarineInstituteProvider
-PROVIDERS: dict[str, type[TideProvider]] = {}
+PROVIDERS: dict[str, type[TideProvider]] = {
+    p.slug: p for p in (MarineInstituteProvider, NoaaCoopsProvider, KartverketProvider)
+}

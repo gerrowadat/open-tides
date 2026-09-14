@@ -1,0 +1,22 @@
+[
+ {
+  "url": "https://vannstand.kartverket.no/tideapi.php?tide_request=locationdata&lat=58.974339&lon=5.730121&fromtime=2026-09-14T00:00&totime=2026-09-21T00:00&refcode=cd&tzone=0&dst=0&lang=en&datatype=tab",
+  "status": 200,
+  "body": "r0.txt"
+ },
+ {
+  "url": "https://vannstand.kartverket.no/tideapi.php?tide_request=locationdata&lat=58.974339&lon=5.730121&fromtime=2026-09-14T00:00&totime=2026-09-16T00:00&refcode=cd&tzone=0&dst=0&lang=en&datatype=pre&interval=10",
+  "status": 200,
+  "body": "r1.txt"
+ },
+ {
+  "url": "https://vannstand.kartverket.no/tideapi.php?tide_request=locationdata&lat=58.974339&lon=5.730121&fromtime=2026-09-14T09:00&totime=2026-09-14T12:00&refcode=cd&tzone=0&dst=0&lang=en&datatype=obs&interval=10",
+  "status": 200,
+  "body": "r2.txt"
+ },
+ {
+  "url": "https://vannstand.kartverket.no/tideapi.php?tide_request=locationdata&lat=53.300000&lon=-6.200000&fromtime=2026-09-14T00:00&totime=2026-09-21T00:00&refcode=cd&tzone=0&dst=0&lang=en&datatype=tab",
+  "status": 200,
+  "body": "r3.txt"
+ }
+]
