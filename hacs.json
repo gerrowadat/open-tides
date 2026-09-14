@@ -1,7 +1,7 @@
 {
   "name": "Open Tides",
   "render_readme": true,
-  "homeassistant": "2025.1.0",
+  "homeassistant": "2026.9.0",
   "zip_release": true,
   "filename": "open_tides.zip"
 }

@@ -3,7 +3,7 @@
 Home Assistant integration for tide predictions from national hydrographic
 sources. Providers: Marine Institute (IE), NOAA CO-OPS (US), Kartverket (NO).
 
-Status: pre-alpha.
+Status: pre-alpha. Providers and integration implemented; no release yet. Tested against HA 2026.9.
 
 ## Entities
 

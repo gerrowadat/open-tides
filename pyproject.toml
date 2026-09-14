@@ -51,8 +51,12 @@ extend-exclude = ["docs"]
 select = ["E", "F", "I", "UP", "B", "SIM", "ANN", "RUF"]
 ignore = ["ANN401"]
 
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["E501"]
+
 [tool.ruff.lint.isort]
 required-imports = ["from __future__ import annotations"]
+known-first-party = ["pyopentides", "custom_components"]
 
 [tool.mypy]
 python_version = "3.12"

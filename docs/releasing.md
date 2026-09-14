@@ -36,6 +36,9 @@ without a migration. Anything else is minor or patch.
 
 ## Known gaps
 
+- `hacs.json` `homeassistant` is the version CI tests against. Lower it
+  only after testing against that version.
+
 - HACS validation can't read a private repo; the CI job is
   `continue-on-error` until the repo is public. Then remove it.
 - `brand/icon.png` is a generated placeholder. Replace, or submit to

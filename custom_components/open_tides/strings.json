@@ -2,22 +2,57 @@
   "config": {
     "step": {
       "user": {
-        "title": "Choose a provider",
-        "data": {
-          "provider": "Provider"
-        }
+        "title": "Provider",
+        "data": { "provider": "Provider" }
+      },
+      "station": {
+        "title": "Station",
+        "description": "Stations from {provider}.",
+        "data": { "station_id": "Station" }
+      },
+      "coordinates": {
+        "title": "Location",
+        "description": "{provider} predicts for any coastal position. Defaults to your home.",
+        "data": { "location": "Location", "name": "Name" }
       }
-    }
+    },
+    "error": { "cannot_connect": "Could not fetch the station list." },
+    "abort": { "already_configured": "This station is already configured." }
   },
   "options": {
     "step": {
       "init": {
+        "title": "Options",
+        "description": "{provider} allows one fetch every {floor} h. Curve: {curve}. Observed: {observed}.",
         "data": {
-          "refresh_interval": "Refresh interval",
-          "enable_curve": "Enable height curve",
-          "enable_observed": "Enable observed level"
+          "refresh_hours": "Refresh interval (hours)",
+          "enable_curve": "Fetch height curve",
+          "enable_observed": "Poll observed level"
         }
       }
+    },
+    "error": { "below_floor": "Below the provider's minimum refresh interval." }
+  },
+  "entity": {
+    "sensor": {
+      "tide": {
+        "name": "Tide",
+        "state": { "rising": "Rising", "falling": "Falling" }
+      },
+      "next_high": { "name": "Next high" },
+      "next_low": { "name": "Next low" },
+      "next_high_height": { "name": "Next high height" },
+      "next_low_height": { "name": "Next low height" },
+      "predicted_height": { "name": "Predicted height" },
+      "observed_height": { "name": "Observed height" },
+      "surge": { "name": "Surge" }
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Refresh",
+      "description": "Refetch predictions. Ignored if the provider's minimum interval has not elapsed.",
+      "fields": { "entry_id": { "name": "Config entry", "description": "Limit to these entries." } }
     }
   }
 }
