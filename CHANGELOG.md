@@ -4,7 +4,7 @@ Two artefacts, two version lines. See docs/releasing.md.
 
 ## Integration
 
-### Unreleased
+### 0.1.0 — 2026-09-14
 - Initial: config flow, Store-backed coordinator, 8 sensors, refresh service.
 
 ## pyopentides
