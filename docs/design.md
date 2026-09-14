@@ -115,8 +115,9 @@ rotated dataset IDs once.
 - `open_tides.refresh` service exists for cache recovery but is subject to
   the same floor. Calling it early logs a warning and does nothing.
 - Every request carries `User-Agent: open_tides/<version> (+<repo url>)`.
-- Curve is fetched only when the user enables it, and only for the next
-  48 h.
+- Curve is fetched only when the user enables it, for `refresh_interval +
+  48 h` so one fetch per period still covers the gap. The `curve` attribute
+  exposes only the next 48 h at 20-min steps.
 - Observed level (if enabled) is the one thing that polls more often —
   provider declares `observed_min_refresh` separately (e.g. 10 min).
 
@@ -125,7 +126,9 @@ rotated dataset IDs once.
 1. Choose provider.
 2. If `coordinate_based`: use HA home lat/long by default, allow override.
    Else: station dropdown from `list_stations()` (cached in the flow).
-3. Options: refresh interval (≥ floor), enable curve, enable observed.
+3. Options: refresh interval in hours (≥ floor; the selector's `min` is
+   the floor and the flow re-checks), enable curve, enable observed. Options
+   the provider/station can't satisfy are ignored, not errors.
 
 Unique ID: `{provider_slug}:{station_id or f"{lat:.3f},{lon:.3f}"}`.
 
@@ -166,7 +169,7 @@ Per config entry, one device. Entities:
 | `sensor.<name>_next_low_height` | sensor (m)      | float                    |
 | `sensor.<name>_predicted_height`| sensor (m)      | interpolated now (curve on) |
 | `sensor.<name>_observed_height` | sensor (m)      | latest gauge (observed on) |
-| `sensor.<name>_surge`           | sensor (m)      | observed − predicted     |
+| `sensor.<name>_surge`           | sensor (m)      | observed − predicted at the observation time (curve if it covers it, else cosine between events) |
 
 Attribution: `_attr_attribution` on every entity (HA renders it in the
 more-info dialog), `attribution` + `licence` + `licence_url` as attributes on

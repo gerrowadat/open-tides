@@ -8,9 +8,9 @@ Contract: [design.md](design.md). Landscape: [api-landscape.md](api-landscape.md
 
 | Slug         | Source                      | Region | Stations | Curve | Observed | Datum      | Licence   | min_refresh | Status  |
 |--------------|-----------------------------|--------|----------|-------|----------|------------|-----------|-------------|---------|
-| `marine_ie`  | Marine Institute ERDDAP     | IE     | list     | 5 min | yes      | LAT (+ODM) | CC BY 4.0 | 7 d         | planned |
+| `marine_ie`  | Marine Institute ERDDAP     | IE     | list     | 5 min | yes      | LAT (+ODM) | CC BY 4.0 | 7 d         | done    |
 | `noaa_coops` | NOAA CO-OPS Data API        | US     | list     | 6 min | yes      | MLLW       | public domain | 1 d     | planned |
-| `kartverket` | Kartverket *Se havnivå* API | NO     | coords   | 10 min| yes      | CD         | CC BY 4.0 | 1 d         | planned |
+| `kartverket` | Kartverket *Se havnivå* API | NO     | coords   | 10 min| yes      | CD         | CC BY 4.0 | 1 d         | done    |
 
 Datum is declared, never converted. Heights from different providers are not
 comparable.
