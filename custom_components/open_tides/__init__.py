@@ -18,6 +18,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     raise NotImplementedError
 
 
+async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Migrate a config entry to the current version.
+
+    Exists from day one so that bumping CONFIG_ENTRY_VERSION later is a code
+    change, not a user action. Currently a no-op.
+    """
+    return True
+
+
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     # TODO

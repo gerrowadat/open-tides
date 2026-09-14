@@ -41,6 +41,14 @@ class TideEvent:
 
 
 @dataclass(frozen=True)
+class Capabilities:
+    """What a provider can do *for a given location*."""
+
+    curve: bool
+    observed: bool
+
+
+@dataclass(frozen=True)
 class Point:
     time: datetime  # tz-aware UTC
     height_m: float

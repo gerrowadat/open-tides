@@ -6,7 +6,14 @@ from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from typing import ClassVar
 
-from pyopentides.models import Location, Observation, Point, Station, TideEvent
+from pyopentides.models import (
+    Capabilities,
+    Location,
+    Observation,
+    Point,
+    Station,
+    TideEvent,
+)
 
 
 class TideProvider(ABC):
@@ -22,6 +29,7 @@ class TideProvider(ABC):
     name: ClassVar[str]
     attribution: ClassVar[str]
     licence: ClassVar[str]
+    licence_url: ClassVar[str]
     datum: ClassVar[str]
     coordinate_based: ClassVar[bool] = False
 
@@ -31,6 +39,14 @@ class TideProvider(ABC):
     supports_curve: ClassVar[bool] = False
     supports_observed: ClassVar[bool] = False
     observed_min_refresh: ClassVar[timedelta | None] = None
+
+    async def capabilities(self, loc: Location) -> Capabilities:
+        """Per-location capabilities. Default: the class-level flags.
+
+        Override when it varies by station (NOAA subordinate stations have
+        events but no curve).
+        """
+        return Capabilities(curve=self.supports_curve, observed=self.supports_observed)
 
     async def list_stations(self) -> list[Station] | None:
         """Return the station list, or None if ``coordinate_based``."""
