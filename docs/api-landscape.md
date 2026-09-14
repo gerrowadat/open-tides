@@ -55,7 +55,7 @@ without the agency's own offset table.
 | CD | NO, CA, FR | Chart Datum — usually LAT or close to it, locally defined |
 | MLLW | US | Mean Lower Low Water over the 19-year epoch |
 | MSL | some model outputs | Mean sea level; useless for "will I ground" |
-| ODM, NAP, NN2000, NAVD88 | IE, NL, NO, US | Land-survey datums. Levels can be negative |
+| ODM, DVR90, NAP, NN2000, NAVD88 | IE, DK, NL, NO, US | Land-survey datums. Levels can be negative |
 
 This is why the contract says *declare, don't convert*. See
 [science.md § Datums](science.md#datums).

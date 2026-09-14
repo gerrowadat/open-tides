@@ -79,6 +79,17 @@ CALLS: dict[str, list[Call]] = {
             lambda p: p.get_events(Location(station_id="0000000"), START, END),
         ),
     ],
+    "dmi": [
+        ("stations", lambda p: p.list_stations()),
+        ("caps", lambda p: p.capabilities(Location(station_id="25149"))),
+        ("events", lambda p: p.get_events(Location(station_id="25149"), START, END)),
+        (
+            "curve",
+            lambda p: p.get_curve(Location(station_id="25149"), START, CURVE_END),
+        ),
+        ("observed", lambda p: p.get_observed(Location(station_id="25149"))),
+        ("events bad", lambda p: p.get_events(Location(station_id="0"), START, END)),
+    ],
     "kartverket": [
         (
             "events",

@@ -1,0 +1,32 @@
+[
+ {
+  "url": "https://opendataapi.dmi.dk/v2/oceanObs/collections/tidewaterstation/items?limit=10000",
+  "status": 200,
+  "body": "r0.txt"
+ },
+ {
+  "url": "https://opendataapi.dmi.dk/v2/oceanObs/collections/station/items?limit=10000",
+  "status": 200,
+  "body": "r1.txt"
+ },
+ {
+  "url": "https://opendataapi.dmi.dk/v2/oceanObs/collections/tidewater/items?limit=10000&stationId=25149&predictionType=minimum_maximum&datetime=2026-09-14T00:00:00Z/2026-09-21T00:00:00Z",
+  "status": 200,
+  "body": "r2.txt"
+ },
+ {
+  "url": "https://opendataapi.dmi.dk/v2/oceanObs/collections/tidewater/items?limit=10000&stationId=25149&predictionType=10minutes&datetime=2026-09-14T00:00:00Z/2026-09-16T00:00:00Z",
+  "status": 200,
+  "body": "r3.txt"
+ },
+ {
+  "url": "https://opendataapi.dmi.dk/v2/oceanObs/collections/observation/items?limit=10000&stationId=25149&parameterId=sealev_dvr&period=latest-hour",
+  "status": 200,
+  "body": "r4.txt"
+ },
+ {
+  "url": "https://opendataapi.dmi.dk/v2/oceanObs/collections/tidewater/items?limit=10000&stationId=0&predictionType=minimum_maximum&datetime=2026-09-14T00:00:00Z/2026-09-21T00:00:00Z",
+  "status": 200,
+  "body": "r5.txt"
+ }
+]

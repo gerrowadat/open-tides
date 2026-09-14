@@ -8,6 +8,7 @@ sources, plus the Python library it's built on.
 | Marine Institute | Ireland | LAT | yes | yes | CC BY 4.0 |
 | NOAA CO-OPS | United States | MLLW | harmonic stations | yes | public domain |
 | Kartverket | Norway | CD | yes | yes | CC BY 4.0 |
+| DMI | Denmark, Greenland, Faroe Islands | DVR90 | yes | yes | CC BY 4.0 |
 
 Status: alpha. Tested against HA 2026.9 in CI; not yet exercised on a live install.
 
@@ -38,7 +39,7 @@ Heights are relative to the provider's datum. Not comparable across providers.
 ## Options
 
 - **Refresh interval** — floored at the provider's minimum (7 d Marine
-  Institute, 1 d NOAA and Kartverket). Predictions don't change; there is
+  Institute and DMI, 1 d NOAA and Kartverket). Predictions don't change; there is
   nothing to gain by polling faster.
 - **Height curve** — fetch the predicted curve. Enables `predicted_height`
   and the `curve` attribute.

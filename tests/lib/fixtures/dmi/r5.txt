@@ -1,0 +1,1 @@
+{"type":"FeatureCollection","features":[],"timeStamp":"2026-09-14T13:35:19Z","numberReturned":0,"links":[{"href":"https://opendataapi.dmi.dk/v2/oceanObs/collections/tidewater/items?limit=10000&stationId=0&predictionType=minimum_maximum&datetime=2026-09-14T00:00:00Z/2026-09-21T00:00:00Z","rel":"self","type":"application/geo+json","title":"This document"}]}
