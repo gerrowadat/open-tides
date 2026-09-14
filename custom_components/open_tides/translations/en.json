@@ -1,0 +1,23 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Choose a provider",
+        "data": {
+          "provider": "Provider"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "refresh_interval": "Refresh interval",
+          "enable_curve": "Enable height curve",
+          "enable_observed": "Enable observed level"
+        }
+      }
+    }
+  }
+}

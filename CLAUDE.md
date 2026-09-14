@@ -1,7 +1,7 @@
 # open_tides
 
 Home Assistant custom integration for tide predictions from official national
-hydrographic sources, via a pluggable provider model. Read `DESIGN.md` before
+hydrographic sources, via a pluggable provider model. Read `docs/design.md` before
 touching provider or coordinator code.
 
 ## What this is

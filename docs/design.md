@@ -35,6 +35,7 @@ class TideProvider(ABC):
     horizon: timedelta        # how far ahead one fetch retrieves (e.g. 90 days)
     supports_curve: bool
     supports_observed: bool
+    observed_min_refresh: timedelta | None  # required if supports_observed; separate floor (e.g. 10 min)
 
     async def list_stations(self) -> list[Station] | None: ...
     async def get_events(self, loc: Location, start: datetime, end: datetime) -> list[TideEvent]: ...
