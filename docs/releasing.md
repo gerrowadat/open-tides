@@ -39,9 +39,12 @@ without a migration. Anything else is minor or patch.
 - `hacs.json` `homeassistant` is the version CI tests against. Lower it
   only after testing against that version.
 
-- `brand/icon.png` is a generated placeholder. Replace, or submit to
-  [home-assistant/brands](https://github.com/home-assistant/brands) and
-  delete the local copy.
+- `custom_components/open_tides/brand/icon.png` (+ `icon@2x.png`) is the
+  integration icon. HA ≥ 2026.3 serves in-repo brand assets itself via
+  `/api/brands/integration/open_tides/…`; the brands repo's
+  `custom_integrations/` folder is legacy and not needed. HACS 2.0.x still
+  fetches from `brands.home-assistant.io`, so its list shows a placeholder
+  until HACS uses the core endpoint. Replace the PNGs to change the icon.
 - PyPI trusted publisher and the `pypi` GitHub environment are not yet
   configured. First library release will fail at the publish step until
   they are.
