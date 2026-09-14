@@ -9,16 +9,14 @@ sources, plus the Python library it's built on.
 | NOAA CO-OPS | United States | MLLW | harmonic stations | yes | public domain |
 | Kartverket | Norway | CD | yes | yes | CC BY 4.0 |
 
-Status: pre-alpha. Implemented and tested against HA 2026.9; no release yet.
+Status: alpha. Tested against HA 2026.9 in CI; not yet exercised on a live install.
 
 ## Install
-
-Not yet. There is no release; these buttons don't work until there is.
 
 [![Add to HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=gerrowadat&repository=open-tides&category=integration)
 [![Add integration](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=open_tides)
 
-Once released: HACS custom repository `gerrowadat/open-tides`, then add the
+HACS → custom repository `gerrowadat/open-tides` (integration), then add the
 integration. Pick a provider, then a station (or a coordinate for Kartverket;
 defaults to your home).
 
