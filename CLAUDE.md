@@ -19,7 +19,8 @@ custom_components/open_tides/   HA integration (config flow, coordinator, entiti
 pyopentides/                    provider library, no HA imports
 tests/lib/                      provider conformance + unit tests
 tests/ha/                       integration tests using pytest-homeassistant-custom-component
-docs/                           user + contributor docs (providers.md, adding-a-provider.md)
+scripts/record_fixtures.py      records live provider responses into tests/lib/fixtures
+docs/                           user + contributor docs; docs/pyopentides.md is the PyPI readme
 hacs.json, manifest.json        HACS + hassfest metadata
 ```
 
@@ -51,7 +52,8 @@ hacs.json, manifest.json        HACS + hassfest metadata
 - Python 3.12+, `from __future__ import annotations`, full type hints.
 - `ruff` for lint/format, `mypy --strict` on `pyopentides`.
 - Tests: `pytest`. Every provider must pass `tests/lib/test_conformance.py`
-  using recorded fixtures (no live network in CI).
+  using recorded fixtures (no live network in CI). Record with
+  `scripts/record_fixtures.py`; replay is `tests/lib/fakesession.py`.
 - Commit messages: conventional commits (`feat(provider-noaa): ...`).
 - Provider modules are one file each: `pyopentides/providers/<slug>.py`.
 - Never hard-code a dataset ID or base URL outside the provider module.

@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "pyopentides"
 version = "0.1.0"
 description = "Tide predictions from official national hydrographic sources."
-readme = "README.md"
+readme = "docs/pyopentides.md"
 license = "MIT"
 requires-python = ">=3.12"
 authors = [{ name = "Dave O'Connor" }]
@@ -23,6 +23,8 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/gerrowadat/open-tides"
+Documentation = "https://github.com/gerrowadat/open-tides/blob/main/docs/pyopentides.md"
+Changelog = "https://github.com/gerrowadat/open-tides/blob/main/CHANGELOG.md"
 Issues = "https://github.com/gerrowadat/open-tides/issues"
 
 [project.optional-dependencies]

@@ -206,9 +206,11 @@ on the `curve` attribute, and a TideWise config pointing at
 ## Testing
 
 - `tests/lib/test_conformance.py` runs the same assertions against every
-  registered provider using recorded HTTP fixtures (`aioresponses`).
+  registered provider using recorded HTTP fixtures, replayed by
+  `tests/lib/fakesession.py` (not `aioresponses`; it lags aiohttp).
   Assertions: events sorted, UTC, metres, within range, alternating kinds,
-  attribution non-empty, `min_refresh` ≥ 1 h.
+  attribution and licence URL present, `min_refresh` ≥ 1 h, unknown
+  location → `StationNotFound`. `scripts/record_fixtures.py` records.
 - Providers may add their own unit tests for parsing edge cases.
 - HA tests: config flow happy path, store round-trip, floor enforcement,
   entity state derivation from a fixed event list.
