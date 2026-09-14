@@ -31,6 +31,8 @@ EVENTS_ATTR_WINDOW = timedelta(hours=48)
 CURVE_ATTR_WINDOW = timedelta(hours=48)
 CURVE_ATTR_STEP = timedelta(minutes=20)
 CURVE_FETCH_MARGIN = timedelta(hours=48)
-BACKFILL = timedelta(days=1)
+# Observations can lag (Marine Institute ERDDAP: ~30 h); keep predictions
+# far enough back that surge can still be computed at the observation time.
+BACKFILL = timedelta(days=2)
 
 SERVICE_REFRESH = "refresh"

@@ -9,6 +9,7 @@ from freezegun.api import FrozenDateTimeFactory
 from homeassistant.core import HomeAssistant
 
 from custom_components.open_tides.const import OPT_ENABLE_CURVE, OPT_ENABLE_OBSERVED
+from pyopentides import Observation
 
 from .conftest import NOW, FakeProvider, station_entry
 
@@ -90,9 +91,9 @@ async def test_curve_entities(
     # 48 h at 20-min step
     assert 140 <= len(curve) <= 145
     predicted = float(hass.states.get("sensor.testport_predicted_height").state)
-    # Fake curve ramps 1.0→3.0 from (now - 1 d) to (now + 12 h + 48 h); at now:
-    span = timedelta(days=1) + timedelta(hours=12) + timedelta(hours=48)
-    assert predicted == pytest.approx(1.0 + 2.0 * timedelta(days=1) / span, abs=0.01)
+    # Fake curve ramps 1.0→3.0 from (now - 2 d) to (now + 12 h + 48 h); at now:
+    span = timedelta(days=2) + timedelta(hours=12) + timedelta(hours=48)
+    assert predicted == pytest.approx(1.0 + 2.0 * timedelta(days=2) / span, abs=0.01)
 
 
 async def test_observed_and_surge(
@@ -122,3 +123,46 @@ async def test_observed_none(
     await _setup(hass, {OPT_ENABLE_OBSERVED: True})
     assert hass.states.get("sensor.testport_observed_height").state == "unknown"
     assert hass.states.get("sensor.testport_surge").state == "unknown"
+
+
+async def test_entity_ids_ignore_area_naming(
+    hass: HomeAssistant, freezer: FrozenDateTimeFactory
+) -> None:
+    """Device in an area; the naming scheme may prefix it. Ours must not."""
+    from homeassistant.helpers import area_registry as ar
+    from homeassistant.helpers import device_registry as dr
+
+    freezer.move_to(NOW)
+    entry = station_entry({OPT_ENABLE_CURVE: True, OPT_ENABLE_OBSERVED: True})
+    entry.add_to_hass(hass)
+    area = ar.async_get(hass).async_get_or_create("Back Garden")
+    dr.async_get(hass).async_get_or_create(
+        config_entry_id=entry.entry_id,
+        identifiers={("open_tides", entry.entry_id)},
+        name="Testport",
+        suggested_area=area.name,
+    )
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    ids = {s.entity_id for s in hass.states.async_all("sensor")}
+    assert {
+        "sensor.testport_tide",
+        "sensor.testport_next_high",
+        "sensor.testport_next_low",
+        "sensor.testport_next_high_height",
+        "sensor.testport_next_low_height",
+        "sensor.testport_predicted_height",
+        "sensor.testport_observed_height",
+        "sensor.testport_surge",
+    } <= ids
+    assert not any("back_garden" in i for i in ids)
+
+
+async def test_surge_with_stale_observation(
+    hass: HomeAssistant, freezer: FrozenDateTimeFactory
+) -> None:
+    """Marine Institute observations lag ~30 h; surge must still resolve."""
+    freezer.move_to(NOW)
+    FakeProvider.observation = Observation(time=NOW - timedelta(hours=30), height_m=2.0)
+    await _setup(hass, {OPT_ENABLE_OBSERVED: True})
+    assert hass.states.get("sensor.testport_surge").state != "unknown"

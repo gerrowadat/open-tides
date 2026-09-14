@@ -13,6 +13,7 @@ from homeassistant.const import UnitOfLength
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
+from homeassistant.util import slugify
 
 from . import tide
 from .const import (
@@ -65,6 +66,14 @@ def _device(entry: OpenTidesConfigEntry) -> DeviceInfo:
     )
 
 
+def _entity_id(entry: OpenTidesConfigEntry, key: str) -> str:
+    """`sensor.<station>_<key>` is a public contract (design.md). Setting
+    entity_id before add makes HA use it as the suggested object id instead
+    of the user's naming scheme (which may prefix the area)."""
+    name = entry.data.get(CONF_STATION_NAME) or entry.title
+    return f"sensor.{slugify(name)}_{key}"
+
+
 class _Base(CoordinatorEntity["TideCoordinator"], SensorEntity):
     _attr_has_entity_name = True
 
@@ -72,6 +81,7 @@ class _Base(CoordinatorEntity["TideCoordinator"], SensorEntity):
         self, coordinator: TideCoordinator, entry: OpenTidesConfigEntry, key: str
     ) -> None:
         super().__init__(coordinator)
+        self.entity_id = _entity_id(entry, key)
         self._attr_unique_id = f"{entry.entry_id}_{key}"
         self._attr_translation_key = key
         self._attr_attribution = coordinator.provider.attribution
@@ -182,6 +192,7 @@ class ObservedHeightSensor(CoordinatorEntity["ObservedCoordinator"], SensorEntit
         self, coordinator: ObservedCoordinator, entry: OpenTidesConfigEntry
     ) -> None:
         super().__init__(coordinator)
+        self.entity_id = _entity_id(entry, "observed_height")
         self._attr_unique_id = f"{entry.entry_id}_observed_height"
         self._attr_attribution = coordinator.provider.attribution
         self._attr_device_info = _device(entry)
@@ -207,6 +218,7 @@ class SurgeSensor(ObservedHeightSensor):
         entry: OpenTidesConfigEntry,
     ) -> None:
         super().__init__(coordinator, entry)
+        self.entity_id = _entity_id(entry, "surge")
         self._attr_unique_id = f"{entry.entry_id}_surge"
         self._predictions = predictions
 
