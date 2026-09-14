@@ -1,27 +1,24 @@
 # Open Tides
 
-Tide predictions in Home Assistant from official national hydrographic
-sources — Marine Institute (Ireland), NOAA CO-OPS (US), Kartverket (Norway),
-with more contributed against the same provider contract.
+Home Assistant integration for tide predictions from national hydrographic
+sources. Providers: Marine Institute (IE), NOAA CO-OPS (US), Kartverket (NO).
 
-**Status: pre-alpha. Nothing works yet.**
+Status: pre-alpha.
 
-## What you get
+## Entities
 
-Per station (or coordinate): tide state (rising/falling), next high/low with
-times and heights, and optionally a predicted height curve and observed
-gauge level. Predictions are cached locally and refreshed no more often than
-each provider allows — restarts never cause requests.
+Per station: tide state, next high/low time and height. Optional: predicted
+height curve, observed level, surge. Predictions are cached; refresh is
+floored at each provider's `min_refresh`.
 
 ## Install
 
-Via HACS as a custom repository (`gerrowadat/open-tides`), then add the
-integration from *Settings → Devices & services*.
+HACS custom repository `gerrowadat/open-tides`, then add the integration.
 
 ## Docs
 
 - [Providers](docs/providers.md)
-- [Graphing the curve](docs/graphing.md)
+- [Graphing](docs/graphing.md)
 - [Adding a provider](docs/adding-a-provider.md)
 - [Design](docs/design.md)
 
@@ -36,5 +33,4 @@ mypy pyopentides
 
 ## Licence
 
-MIT. Tide data is subject to each provider's own licence; see
-[docs/providers.md](docs/providers.md).
+MIT. Tide data is under each provider's licence; see [providers](docs/providers.md).
