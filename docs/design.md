@@ -27,16 +27,18 @@ class TideProvider(ABC):
     name: str                 # human-readable
     attribution: str          # shown on every entity
     licence: str              # e.g. "CC-BY-4.0"
+    licence_url: str          # CC BY requires a link; shown next to attribution
     datum: str                # "LAT", "MLLW", "CD", ...
     coordinate_based: bool    # True = no station list, query by lat/long
 
     # Politeness
     min_refresh: timedelta    # hard floor for polling; coordinator enforces
     horizon: timedelta        # how far ahead one fetch retrieves (e.g. 90 days)
-    supports_curve: bool
+    supports_curve: bool      # provider can *ever*; per-location answer comes from capabilities()
     supports_observed: bool
     observed_min_refresh: timedelta | None  # required if supports_observed; separate floor (e.g. 10 min)
 
+    async def capabilities(self, loc: Location) -> Capabilities: ...   # default: the class flags
     async def list_stations(self) -> list[Station] | None: ...
     async def get_events(self, loc: Location, start: datetime, end: datetime) -> list[TideEvent]: ...
     async def get_curve(self, loc: Location, start: datetime, end: datetime) -> list[Point]: ...      # optional
@@ -61,6 +63,11 @@ class TideEvent:
     time: datetime         # tz-aware UTC
     height_m: float
     kind: Literal["high", "low"]
+
+@dataclass(frozen=True)
+class Capabilities:        # per location; e.g. NOAA subordinate stations have events but no curve
+    curve: bool
+    observed: bool
 
 @dataclass(frozen=True)
 class Point:
@@ -122,6 +129,30 @@ rotated dataset IDs once.
 
 Unique ID: `{provider_slug}:{station_id or f"{lat:.3f},{lon:.3f}"}`.
 
+Entry data always stores `provider`, `station_id` (may be null), `station_name`,
+`lat`, `lon` — even for station-based providers. If a provider later renames or
+drops a station id, the coordinator can re-resolve by nearest coordinate and
+repair the entry rather than fail.
+
+## Future-proofing
+
+Users must never have to delete and re-add an entry.
+
+- `ConfigFlow.VERSION` / `MINOR_VERSION` are set from day one;
+  `async_migrate_entry` exists from day one, even if it's a no-op.
+- The `Store` payload carries `version`; loading an older version migrates or
+  discards and refetches. It never errors the entry.
+- Provider `slug` is permanent. Renaming a provider means a new slug plus a
+  migration that rewrites entries.
+- Every option has a default; an entry written before an option existed still
+  loads.
+- Entity unique IDs are `{entry_id}_{key}`, never derived from names or
+  station ids.
+- Capabilities are queried per location, so a provider gaining or losing a
+  feature for some stations is not a schema change.
+- Provider modules keep dataset IDs and base URLs as class attributes; a
+  provider-side rotation is a patch release, not a user action.
+
 ## Entities
 
 Per config entry, one device. Entities:
@@ -137,13 +168,20 @@ Per config entry, one device. Entities:
 | `sensor.<name>_observed_height` | sensor (m)      | latest gauge (observed on) |
 | `sensor.<name>_surge`           | sensor (m)      | observed − predicted     |
 
+Attribution: `_attr_attribution` on every entity (HA renders it in the
+more-info dialog), `attribution` + `licence` + `licence_url` as attributes on
+`sensor.<name>_tide`, and the provider `name` as the device `manufacturer`.
+The wording is the provider's; see `docs/providers.md`.
+
 Attributes on `sensor.<name>_tide` (the public contract):
 
 ```yaml
 datum: LAT
 provider: marine_ie
 station: Dublin Port
-attribution: ...
+attribution: Tide predictions © Marine Institute, Ireland
+licence: CC-BY-4.0
+licence_url: https://creativecommons.org/licenses/by/4.0/
 events:            # next 48 h of highs/lows
   - time: 2026-09-14T18:12:00+00:00
     height: 4.12

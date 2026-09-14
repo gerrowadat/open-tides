@@ -11,12 +11,20 @@ from pyopentides.exceptions import (
     ProviderUnavailable,
     StationNotFound,
 )
-from pyopentides.models import Location, Observation, Point, Station, TideEvent
+from pyopentides.models import (
+    Capabilities,
+    Location,
+    Observation,
+    Point,
+    Station,
+    TideEvent,
+)
 from pyopentides.provider import TideProvider
 
 __version__ = "0.1.0"
 
 __all__ = [
+    "Capabilities",
     "Location",
     "Observation",
     "Point",

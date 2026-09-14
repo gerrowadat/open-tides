@@ -11,7 +11,7 @@ checklist.
 
 1. **One module**: `pyopentides/providers/<slug>.py`. No HA imports.
 2. **Subclass `TideProvider`** and declare:
-   - `slug`, `name`, `attribution`, `licence`, `datum`
+   - `slug`, `name`, `attribution`, `licence`, `licence_url`, `datum`
    - `coordinate_based`
    - `min_refresh` (≥ 1 h; conformance enforces this), `horizon`
    - `supports_curve`, `supports_observed`
@@ -56,6 +56,7 @@ class ExampleProvider(TideProvider):
     name = "Example Hydrographic Office"
     attribution = "Tide predictions © Example Hydrographic Office"
     licence = "CC-BY-4.0"
+    licence_url = "https://creativecommons.org/licenses/by/4.0/"
     datum = "LAT"
     coordinate_based = False
 

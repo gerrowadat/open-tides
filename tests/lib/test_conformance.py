@@ -19,6 +19,7 @@ def test_declarations(provider_cls: type) -> None:
     assert provider_cls.name
     assert provider_cls.attribution
     assert provider_cls.licence
+    assert provider_cls.licence_url.startswith("https://")
     assert provider_cls.datum
     assert provider_cls.min_refresh >= timedelta(hours=1)
     assert provider_cls.horizon > timedelta(0)

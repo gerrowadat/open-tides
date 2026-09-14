@@ -20,7 +20,7 @@ comparable.
 ## marine_ie — Marine Institute (Ireland)
 
 **Base:** `https://erddap.marine.ie/erddap/tabledap/`
-**Licence:** CC BY 4.0 (per-dataset `license` attribute).
+**Licence:** CC BY 4.0 (per-dataset `license` attribute). <https://creativecommons.org/licenses/by/4.0/>
 **Attribution:** "Tide predictions © Marine Institute, Ireland (CC BY 4.0)".
 **Contact:** datarequests@marine.ie.
 
@@ -58,7 +58,7 @@ Dataset IDs have rotated before. Keep them as class attributes.
 
 **Base:** `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter`
 **Metadata:** `https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/`
-**Licence:** US Government work, public domain. NOAA requests attribution.
+**Licence:** US Government work, public domain. NOAA requests attribution. <https://www.noaa.gov/information-technology/disclaimer>
 **Attribution:** "Tide predictions courtesy of NOAA CO-OPS".
 
 ### Endpoints
@@ -107,7 +107,7 @@ Dataset IDs have rotated before. Keep them as class attributes.
 
 **Base:** `https://vannstand.kartverket.no/tideapi.php`
 (`api.sehavniva.no` is retired; don't use.)
-**Licence:** CC BY 4.0. Attribution to "Kartverket" required.
+**Licence:** CC BY 4.0. Attribution to "Kartverket" required. <https://creativecommons.org/licenses/by/4.0/>
 **Attribution:** "Tidal data © Norwegian Mapping Authority, Hydrographic Service (Kartverket), CC BY 4.0".
 **Spec:** [API for water level and tides — communication protocol (PDF, rev. June 2025)](https://vannstand.kartverket.no/API%20for%20water%20level%20and%20tides%20-%20communication%20protocol_revJune2025.pdf)
 **Docs:** <https://vannstand.kartverket.no/tideapi_en.html>
