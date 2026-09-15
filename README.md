@@ -30,6 +30,9 @@ One device per station. `<name>` is the station name.
 | `sensor.<name>_tide` | `rising` / `falling`. Attributes: `events` (next 48 h), `curve` (if enabled), `datum`, `provider`, `station`, `attribution`, `licence`, `licence_url` |
 | `sensor.<name>_next_high`, `_next_low` | timestamp |
 | `sensor.<name>_next_high_height`, `_next_low_height` | metres |
+| `sensor.<name>_range` | metres, current half-cycle. Attributes: `horizon_max`, `horizon_min` |
+| `sensor.<name>_next_spring`, `_next_neap` | timestamp of the high with the largest / smallest range in the next 15 days. Attribute: `range` |
+| `sensor.<name>_rate` | m/h, rate of rise (+) or fall (−). Zero at the turn, largest mid-tide |
 | `sensor.<name>_predicted_height` | metres, now (curve option) |
 | `sensor.<name>_observed_height` | metres, latest gauge reading (observed option) |
 | `sensor.<name>_surge` | observed − predicted, metres (observed option) |

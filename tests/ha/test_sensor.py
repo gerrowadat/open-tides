@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 import pytest
 from freezegun.api import FrozenDateTimeFactory
@@ -166,3 +166,30 @@ async def test_surge_with_stale_observation(
     FakeProvider.observation = Observation(time=NOW - timedelta(hours=30), height_m=2.0)
     await _setup(hass, {OPT_ENABLE_OBSERVED: True})
     assert hass.states.get("sensor.testport_surge").state != "unknown"
+
+
+async def test_range_spring_neap_rate_entities(
+    hass: HomeAssistant, freezer: FrozenDateTimeFactory
+) -> None:
+    from .conftest import SPRING_AT
+
+    freezer.move_to(NOW)
+    FakeProvider.modulate = True
+    await _setup(hass)
+
+    rng = hass.states.get("sensor.testport_range")
+    assert 2.5 <= float(rng.state) <= 4.5
+    assert rng.attributes["horizon_max"] == pytest.approx(4.5, abs=0.02)
+    assert rng.attributes["horizon_min"] == pytest.approx(2.5, abs=0.02)
+    assert rng.attributes["unit_of_measurement"] == "m"
+
+    spring = hass.states.get("sensor.testport_next_spring")
+    assert abs(datetime.fromisoformat(spring.state) - SPRING_AT) < timedelta(hours=7)
+    assert spring.attributes["range"] == pytest.approx(4.5, abs=0.02)
+    neap = hass.states.get("sensor.testport_next_neap")
+    assert neap.state != "unknown"
+    assert neap.attributes["range"] < spring.attributes["range"]
+
+    rate = hass.states.get("sensor.testport_rate")
+    assert float(rate.state) > 0  # rising at NOW
+    assert rate.attributes["unit_of_measurement"] == "m/h"

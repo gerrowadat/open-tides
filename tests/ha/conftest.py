@@ -6,6 +6,7 @@ network and are independent of provider quirks.
 
 from __future__ import annotations
 
+import math
 from collections.abc import Generator
 from datetime import UTC, datetime, timedelta
 from typing import Any
@@ -36,16 +37,30 @@ NOW = datetime(2026, 9, 14, 12, 0, tzinfo=UTC)
 HALF_CYCLE = timedelta(hours=6, minutes=12)
 
 
-def make_events(start: datetime, end: datetime) -> list[TideEvent]:
-    """Alternating high/low every 6h12m, starting with a high at 03:00 on day 1."""
+SPRING_AT = datetime(2026, 9, 20, 3, 0, tzinfo=UTC)  # a high at springs
+SYNODIC_HALF = timedelta(days=14.77)
+
+
+def make_events(
+    start: datetime, end: datetime, *, modulate: bool = False
+) -> list[TideEvent]:
+    """Alternating high/low every 6h12m from 03:00 on 2026-09-13.
+
+    Flat 4.0/0.5 by default. With ``modulate``, the amplitude follows a
+    spring-neap cycle peaking at SPRING_AT (range 4.5) and bottoming half a
+    synodic month later (range 2.5).
+    """
     t = datetime(2026, 9, 13, 3, 0, tzinfo=UTC)
     kind = "high"
     out: list[TideEvent] = []
     while t <= end:
         if t >= start:
-            out.append(
-                TideEvent(time=t, height_m=4.0 if kind == "high" else 0.5, kind=kind)
-            )
+            amp = 1.75
+            if modulate:
+                phase = (t - SPRING_AT) / SYNODIC_HALF * math.pi
+                amp = 1.75 + 0.5 * math.cos(phase)
+            h = 2.25 + amp if kind == "high" else 2.25 - amp
+            out.append(TideEvent(time=t, height_m=round(h, 3), kind=kind))
         t += HALF_CYCLE
         kind = "low" if kind == "high" else "high"
     return out
@@ -76,6 +91,7 @@ class FakeProvider(TideProvider):
 
     calls: dict[str, int] = {}  # noqa: RUF012 - reset per test by fixture
     caps = Capabilities(curve=True, observed=True)
+    modulate = False
     observation: Observation | None = Observation(
         time=NOW - timedelta(minutes=5), height_m=2.5
     )
@@ -98,7 +114,7 @@ class FakeProvider(TideProvider):
         self, loc: Location, start: datetime, end: datetime
     ) -> list[TideEvent]:
         self._count("get_events")
-        return make_events(start, end)
+        return make_events(start, end, modulate=FakeProvider.modulate)
 
     async def get_curve(
         self, loc: Location, start: datetime, end: datetime
@@ -129,6 +145,7 @@ def auto_enable_custom_integrations(enable_custom_integrations: None) -> None:
 def fake_providers(monkeypatch: pytest.MonkeyPatch) -> Generator[None]:
     FakeProvider.calls = {}
     FakeProvider.caps = Capabilities(curve=True, observed=True)
+    FakeProvider.modulate = False
     FakeProvider.observation = Observation(
         time=NOW - timedelta(minutes=5), height_m=2.5
     )

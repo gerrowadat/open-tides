@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 from bisect import bisect_left
 from datetime import datetime, timedelta
+from itertools import pairwise
 from typing import TYPE_CHECKING, Literal
 
 if TYPE_CHECKING:
@@ -97,3 +98,50 @@ def downsample(
             out.append(p)
             last = p.time
     return out
+
+
+# -- range, springs and neaps ------------------------------------------------
+
+SPRING_NEAP_WINDOW = timedelta(days=15)  # a bit over half a synodic month
+RATE_STEP = timedelta(minutes=10)
+
+
+def ranges(events: list[TideEvent]) -> list[tuple[TideEvent, TideEvent, float]]:
+    """(earlier, later, |Δheight|) for each consecutive pair of events."""
+    return [(a, b, abs(b.height_m - a.height_m)) for a, b in pairwise(events)]
+
+
+def current_range(events: list[TideEvent], now: datetime) -> float | None:
+    """Range of the half-cycle we're in: |next - previous|."""
+    prev, nxt = bracket(events, now)
+    if prev is None or nxt is None:
+        return None
+    return abs(nxt.height_m - prev.height_m)
+
+
+def extreme_range(
+    events: list[TideEvent],
+    now: datetime,
+    window: timedelta = SPRING_NEAP_WINDOW,
+    *,
+    largest: bool,
+) -> tuple[TideEvent, float] | None:
+    """The high water with the largest (spring) or smallest (neap) range in
+    [now, now + window]. Returns (that high, its range)."""
+    best: tuple[TideEvent, float] | None = None
+    for a, b, r in ranges(events):
+        if not now <= b.time <= now + window:
+            continue
+        high = a if a.kind == "high" else b
+        if best is None or (r > best[1] if largest else r < best[1]):
+            best = (high, r)
+    return best
+
+
+def rate(events: list[TideEvent], curve: list[Point], now: datetime) -> float | None:
+    """Rate of rise (+) or fall (-) in m/h, from a central difference."""
+    before = predicted_at(events, curve, now - RATE_STEP)
+    after = predicted_at(events, curve, now + RATE_STEP)
+    if before is None or after is None:
+        return None
+    return (after - before) / (2 * RATE_STEP.total_seconds() / 3600)

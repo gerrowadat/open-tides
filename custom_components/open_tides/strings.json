@@ -43,6 +43,10 @@
       "next_low": { "name": "Next low" },
       "next_high_height": { "name": "Next high height" },
       "next_low_height": { "name": "Next low height" },
+      "range": { "name": "Range" },
+      "next_spring": { "name": "Next spring tide" },
+      "next_neap": { "name": "Next neap tide" },
+      "rate": { "name": "Rate" },
       "predicted_height": { "name": "Predicted height" },
       "observed_height": { "name": "Observed height" },
       "surge": { "name": "Surge" }
