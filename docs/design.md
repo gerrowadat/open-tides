@@ -167,6 +167,10 @@ Per config entry, one device. Entities:
 | `sensor.<name>_next_low`        | sensor (timestamp) | ISO time              |
 | `sensor.<name>_next_high_height`| sensor (m)      | float                    |
 | `sensor.<name>_next_low_height` | sensor (m)      | float                    |
+| `sensor.<name>_range`           | sensor (m)      | \|next − previous\| event heights; attrs `horizon_max`, `horizon_min` |
+| `sensor.<name>_next_spring`     | sensor (timestamp) | high water with the largest range in the next 15 d; attrs `range`, `height` |
+| `sensor.<name>_next_neap`       | sensor (timestamp) | high water with the smallest range in the next 15 d; attrs `range`, `height` |
+| `sensor.<name>_rate`            | sensor (m/h)    | rate of rise (+) / fall (−); central difference over ±10 min |
 | `sensor.<name>_predicted_height`| sensor (m)      | interpolated now (curve on) |
 | `sensor.<name>_observed_height` | sensor (m)      | latest gauge (observed on) |
 | `sensor.<name>_surge`           | sensor (m)      | observed − predicted at the observation time (curve if it covers it, else cosine between events) |

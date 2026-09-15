@@ -4,6 +4,10 @@ Two artefacts, two version lines. See docs/releasing.md.
 
 ## Integration
 
+### 0.3.0 — 2026-09-15
+- New entities: `range` (with `horizon_max`/`horizon_min`), `next_spring`, `next_neap`, `rate` (m/h). Additive; no fetches.
+- science.md: what tide-watchers know.
+
 ### 0.2.0 — 2026-09-14
 - DMI provider (Denmark, Greenland, Faroe Islands). Requires pyopentides 0.2.
 

@@ -82,6 +82,43 @@ declaring.
 - NOAA, [Tidal Datums](https://tidesandcurrents.noaa.gov/datum_options.html)
 - NOAA, [Tidal Datums and Their Applications](https://tidesandcurrents.noaa.gov/publications/tidal_datums_and_their_applications.pdf) (NOS CO-OPS 1)
 
+## What tide-watchers know
+
+The vocabulary in almanacs and on the quay.
+
+- **Springs and neaps.** Range swells and shrinks on a ~14.8-day cycle as the
+  Sun's pull (S2) drifts in and out of step with the Moon's (M2). Springs a
+  day or two after new and full moon; neaps after the quarters. "Spring" is
+  from *springing up*, nothing to do with the season. Almanacs print MHWS /
+  MLWS / MHWN / MLWN per port so you can see where today sits.
+- **Range beats height.** Big range means strong streams, fast-draining
+  flats, moorings that dry. `sensor.<name>_range` and its `horizon_max` /
+  `horizon_min` attributes give today's range against the port's springs
+  and neaps; `next_spring` / `next_neap` say when.
+- **Slack water** is the pause at the turn, when streams stop. In narrows and
+  harbour mouths it can lag high or low water by an hour or more. `rate`
+  goes through zero there.
+- **Rule of twelfths.** Rise per hour after low water: 1/12, 2/12, 3/12,
+  3/12, 2/12, 1/12 of the range. Half the water moves in the middle two
+  hours; that's the strongest flow. `rate` is the continuous version.
+- **Tidal coefficient.** French, Spanish and Portuguese tables scale the
+  range 20–120: ≥ 95 *vive-eau* (big springs), ~45 *morte-eau* (neaps), 120
+  the largest possible. Not exposed yet.
+- **King tides** are the year's largest springs — perigee coinciding with an
+  equinoctial spring. `next_spring` over a 90-day horizon finds the season's
+  biggest, not necessarily the year's.
+- **Depth = chart depth + height above datum.** Charted depths are below
+  LAT/CD; the prediction adds to them. A negative low (land datums, or under
+  a negative surge) means less than the chart says.
+- **Surge.** Weather moves the sea off the prediction: a deep low adds tens
+  of centimetres, a bad one a metre. `surge` is observed − predicted. It's
+  what the harbour master watches.
+- **Regime.** Two near-equal tides a day (semidiurnal: Europe), one (diurnal:
+  Gulf of Mexico), or two unequal ones (mixed: US west coast, where NOAA marks
+  HH/LL). In a mixed regime "next high" may be the small one.
+- **Daily lag** ~50 min later each day, from the Moon's orbit. Tuesday's
+  14:00 high is Friday's ~16:30.
+
 ## Interpolating between highs and lows
 
 If you only have events, the "rule of twelfths" (1/12, 2/12, 3/12, 3/12,

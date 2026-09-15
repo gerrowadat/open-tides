@@ -30,6 +30,8 @@ if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
+    from pyopentides import TideEvent
+
     from . import OpenTidesConfigEntry
     from .coordinator import ObservedCoordinator, TideCoordinator
 
@@ -47,6 +49,10 @@ async def async_setup_entry(
         NextEventSensor(coord, entry, "low"),
         NextEventHeightSensor(coord, entry, "high"),
         NextEventHeightSensor(coord, entry, "low"),
+        RangeSensor(coord, entry),
+        SpringNeapSensor(coord, entry, largest=True),
+        SpringNeapSensor(coord, entry, largest=False),
+        RateSensor(coord, entry),
     ]
     if coord.curve_enabled:
         entities.append(PredictedHeightSensor(coord, entry))
@@ -163,6 +169,81 @@ class NextEventHeightSensor(_Metres):
     def native_value(self) -> float | None:
         ev = tide.next_of(self.coordinator.data.events, self._kind, self.now)
         return ev.height_m if ev else None
+
+
+class RangeSensor(_Metres):
+    """Range of the current half-cycle; attributes give the horizon's extremes."""
+
+    def __init__(
+        self, coordinator: TideCoordinator, entry: OpenTidesConfigEntry
+    ) -> None:
+        super().__init__(coordinator, entry, "range")
+
+    @property
+    def native_value(self) -> float | None:
+        r = tide.current_range(self.coordinator.data.events, self.now)
+        return round(r, 3) if r is not None else None
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        rs = [r for _, _, r in tide.ranges(self.coordinator.data.events)]
+        if not rs:
+            return {}
+        return {"horizon_max": round(max(rs), 3), "horizon_min": round(min(rs), 3)}
+
+
+class SpringNeapSensor(_Base):
+    """High water with the largest (spring) / smallest (neap) range in the
+    next 15 days. Range as an attribute."""
+
+    _attr_device_class = SensorDeviceClass.TIMESTAMP
+
+    def __init__(
+        self,
+        coordinator: TideCoordinator,
+        entry: OpenTidesConfigEntry,
+        *,
+        largest: bool,
+    ) -> None:
+        super().__init__(coordinator, entry, "next_spring" if largest else "next_neap")
+        self._largest = largest
+
+    def _find(self) -> tuple[TideEvent, float] | None:
+        return tide.extreme_range(
+            self.coordinator.data.events, self.now, largest=self._largest
+        )
+
+    @property
+    def native_value(self) -> datetime | None:
+        found = self._find()
+        return found[0].time if found else None
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        found = self._find()
+        if not found:
+            return {}
+        return {"range": round(found[1], 3), "height": found[0].height_m}
+
+
+class RateSensor(_Base):
+    """Rate of rise (+) or fall (-), m/h. Strongest mid-tide, zero at the turn."""
+
+    _attr_native_unit_of_measurement = "m/h"
+    _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 2
+    _attr_icon = "mdi:swap-vertical"
+
+    def __init__(
+        self, coordinator: TideCoordinator, entry: OpenTidesConfigEntry
+    ) -> None:
+        super().__init__(coordinator, entry, "rate")
+
+    @property
+    def native_value(self) -> float | None:
+        d = self.coordinator.data
+        r = tide.rate(d.events, d.curve, self.now)
+        return round(r, 3) if r is not None else None
 
 
 class PredictedHeightSensor(_Metres):
